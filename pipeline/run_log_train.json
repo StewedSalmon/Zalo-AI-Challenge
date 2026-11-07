@@ -1,0 +1,9 @@
+{
+  "split": "train",
+  "rulebook_sha256": "740267bccba29df70f745bc39968bbec5b3e62dada2c858c45314f3ec723d113",
+  "questions": 3000,
+  "answered": 337,
+  "abstain": 2663,
+  "unanswerable": 0,
+  "errors": 0
+}

@@ -1,0 +1,10 @@
+{
+  "input": "F:\\C++\\Zalo AI Challenge\\train",
+  "rulebook_sha256": "740267bccba29df70f745bc39968bbec5b3e62dada2c858c45314f3ec723d113",
+  "code_version": "bf038deef356ad7e",
+  "questions": 3000,
+  "answered": 217,
+  "abstain": 2781,
+  "unanswerable": 2,
+  "errors": 0
+}
