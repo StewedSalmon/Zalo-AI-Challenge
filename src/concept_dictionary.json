@@ -1,0 +1,373 @@
+{
+  "entries": [
+    {
+      "canonical": "revenue",
+      "kind": "concept",
+      "aliases": ["doanh thu", "tien hang", "tien ban", "ban duoc bao nhieu tien", "thu ve bao nhieu tien", "dthu", "revenue"],
+      "display": {
+        "doanh thu": "doanh thu",
+        "tien hang": "tiền hàng",
+        "tien ban": "tiền bán",
+        "ban duoc bao nhieu tien": "bán được bao nhiêu tiền",
+        "thu ve bao nhieu tien": "thu về bao nhiêu tiền",
+        "dthu": "dthu",
+        "revenue": "revenue"
+      },
+      "constant": null,
+      "rulebook_ref": "§1",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "order_id",
+      "kind": "concept",
+      "aliases": ["don", "don hang", "so don", "so don hang"],
+      "display": {
+        "don": "đơn",
+        "don hang": "đơn hàng",
+        "so don": "số đơn",
+        "so don hang": "số đơn hàng"
+      },
+      "constant": null,
+      "rulebook_ref": "§1, §8",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "quantity_base",
+      "kind": "concept",
+      "aliases": ["so luong", "so luong quy ve don vi co ban", "ban chay", "ban chay nhat", "ban nhieu nhat", "ban duoc nhieu nhat", "hot nhat"],
+      "display": {
+        "so luong": "số lượng",
+        "so luong quy ve don vi co ban": "số lượng quy về đơn vị cơ bản",
+        "ban chay": "bán chạy",
+        "ban chay nhat": "bán chạy nhất",
+        "ban nhieu nhat": "bán nhiều nhất",
+        "ban duoc nhieu nhat": "bán được nhiều nhất",
+        "hot nhat": "hot nhất"
+      },
+      "constant": null,
+      "rulebook_ref": "§3",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "debt_balance",
+      "kind": "concept",
+      "aliases": ["cong no", "tong no"],
+      "display": {
+        "cong no": "công nợ",
+        "tong no": "tổng nợ"
+      },
+      "constant": null,
+      "rulebook_ref": "§4",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "debt_balance",
+      "kind": "constant_term",
+      "aliases": ["con no"],
+      "display": {
+        "con no": "còn nợ"
+      },
+      "constant": {"comparator": "gt", "value": 0},
+      "rulebook_ref": "§4",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "stock_end_qty",
+      "kind": "concept",
+      "aliases": ["ton kho", "con ton"],
+      "display": {
+        "ton kho": "tồn kho",
+        "con ton": "còn tồn"
+      },
+      "constant": null,
+      "rulebook_ref": "§5",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "stock_end_qty",
+      "kind": "constant_term",
+      "aliases": ["con hang"],
+      "display": {
+        "con hang": "còn hàng"
+      },
+      "constant": {"comparator": "gt", "value": 0},
+      "rulebook_ref": "§2, §5",
+      "status": "proposed"
+    },
+    {
+      "canonical": "stock_end_qty",
+      "kind": "constant_term",
+      "aliases": ["het hang"],
+      "display": {
+        "het hang": "hết hàng"
+      },
+      "constant": {"comparator": "eq", "value": 0},
+      "rulebook_ref": "§5",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "expiry_date",
+      "kind": "concept",
+      "aliases": ["han dung", "han su dung", "gan het han"],
+      "display": {
+        "han dung": "hạn dùng",
+        "han su dung": "hạn sử dụng",
+        "gan het han": "gần hết hạn"
+      },
+      "constant": null,
+      "rulebook_ref": "§6",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "order_status",
+      "kind": "concept",
+      "aliases": ["trang thai", "trang thai don"],
+      "display": {
+        "trang thai": "trạng thái",
+        "trang thai don": "trạng thái đơn"
+      },
+      "constant": null,
+      "rulebook_ref": "§8",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "product_name",
+      "kind": "grouping",
+      "aliases": ["mat hang", "mon", "hang", "san pham", "theo mat hang"],
+      "display": {
+        "mat hang": "mặt hàng",
+        "mon": "món",
+        "hang": "hàng",
+        "san pham": "sản phẩm",
+        "theo mat hang": "theo mặt hàng"
+      },
+      "constant": null,
+      "rulebook_ref": "§3",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "customer_name",
+      "kind": "grouping",
+      "aliases": ["khach", "khach hang", "theo khach"],
+      "display": {
+        "khach": "khách",
+        "khach hang": "khách hàng",
+        "theo khach": "theo khách"
+      },
+      "constant": null,
+      "rulebook_ref": "§3",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "customer_group",
+      "kind": "grouping",
+      "aliases": ["nhom khach", "theo nhom khach"],
+      "display": {
+        "nhom khach": "nhóm khách",
+        "theo nhom khach": "theo nhóm khách"
+      },
+      "constant": null,
+      "rulebook_ref": "§1",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "product_code",
+      "kind": "concept",
+      "aliases": ["ma hang", "ma mat hang", "ma san pham"],
+      "display": {
+        "ma hang": "mã hàng",
+        "ma mat hang": "mã mặt hàng",
+        "ma san pham": "mã sản phẩm"
+      },
+      "constant": null,
+      "rulebook_ref": "§8",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "group:day",
+      "kind": "grouping",
+      "aliases": ["theo ngay", "moi ngay"],
+      "display": {
+        "theo ngay": "theo ngày",
+        "moi ngay": "mỗi ngày"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "proposed"
+    },
+    {
+      "canonical": "group:month",
+      "kind": "grouping",
+      "aliases": ["theo thang", "moi thang"],
+      "display": {
+        "theo thang": "theo tháng",
+        "moi thang": "mỗi tháng"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "proposed"
+    },
+    {
+      "canonical": "gt",
+      "kind": "comparator",
+      "aliases": ["tren", "lon hon", "vuot"],
+      "display": {
+        "tren": "trên",
+        "lon hon": "lớn hơn",
+        "vuot": "vượt"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "gte",
+      "kind": "comparator",
+      "aliases": ["tu ... tro len", "it nhat", "khong duoi", "tro len", "tu tro len"],
+      "display": {
+        "tu ... tro len": "từ ... trở lên",
+        "it nhat": "ít nhất",
+        "khong duoi": "không dưới",
+        "tro len": "trở lên",
+        "tu tro len": "từ trở lên"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "lt",
+      "kind": "comparator",
+      "aliases": ["duoi", "it hon"],
+      "display": {
+        "duoi": "dưới",
+        "it hon": "ít hơn"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "lte",
+      "kind": "comparator",
+      "aliases": ["khong qua", "toi da"],
+      "display": {
+        "khong qua": "không quá",
+        "toi da": "tối đa"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "proposed"
+    },
+    {
+      "canonical": "eq",
+      "kind": "comparator",
+      "aliases": ["bang"],
+      "display": {
+        "bang": "bằng"
+      },
+      "constant": null,
+      "rulebook_ref": "§5",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "month_to_date",
+      "kind": "time_kind",
+      "aliases": ["thang nay", "tu dau thang nay den het hom nay"],
+      "display": {
+        "thang nay": "tháng này",
+        "tu dau thang nay den het hom nay": "từ đầu tháng này đến hết hôm nay"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "time:day",
+      "kind": "time_kind",
+      "aliases": ["hom nay", "hom qua", "ngay"],
+      "display": {
+        "hom nay": "hôm nay",
+        "hom qua": "hôm qua",
+        "ngay": "ngày"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "week",
+      "kind": "time_kind",
+      "aliases": ["tuan", "tuan nay", "tuan truoc", "tuan roi"],
+      "display": {
+        "tuan": "tuần",
+        "tuan nay": "tuần này",
+        "tuan truoc": "tuần trước",
+        "tuan roi": "tuần rồi"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "last_n_days",
+      "kind": "time_kind",
+      "aliases": ["n ngay gan nhat", "ngay gan nhat"],
+      "display": {
+        "n ngay gan nhat": "N ngày gần nhất",
+        "ngay gan nhat": "ngày gần nhất"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "time:month",
+      "kind": "time_kind",
+      "aliases": ["thang"],
+      "display": {
+        "thang": "tháng"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "range",
+      "kind": "time_kind",
+      "aliases": ["tu x den y", "quy"],
+      "display": {
+        "tu x den y": "Từ X đến Y",
+        "quy": "quý"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "as_of",
+      "kind": "time_kind",
+      "aliases": ["den het ngay", "tinh den het ngay", "den het", "tinh den hom nay"],
+      "display": {
+        "den het ngay": "đến hết ngày",
+        "tinh den het ngay": "tính đến hết ngày",
+        "den het": "đến hết",
+        "tinh den hom nay": "tính đến hôm nay"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "year",
+      "kind": "time_kind",
+      "aliases": ["nam"],
+      "display": {
+        "nam": "năm"
+      },
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "proposed"
+    }
+  ]
+}
