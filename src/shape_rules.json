@@ -1,0 +1,217 @@
+{
+  "version": 1,
+  "shape_metrics": {
+    "aggregate": ["revenue"],
+    "count": ["order_id"],
+    "average": ["revenue"],
+    "average_nonmoney": ["quantity_base", "receipt_quantity", "lot_quantity", "payment_amount"],
+    "diff": ["revenue"],
+    "ratio": ["order_id"],
+    "pct_change": ["revenue"],
+    "top_1": ["quantity_base"],
+    "top_1_value": ["revenue"],
+    "top_k": ["quantity_base"],
+    "threshold_list": ["debt_balance"],
+    "balance_asof": ["debt_balance"],
+    "breakdown_by_time": ["revenue"],
+    "entity_list": ["stock_end_qty"],
+    "multi_value": ["revenue"],
+    "multi_period": ["revenue"],
+    "argmax_day": ["revenue"],
+    "date_lookup": ["expiry_date"],
+    "expiry_date": ["expiry_date"],
+    "top_k_table": ["debt_balance"],
+    "trend_check": ["revenue"],
+    "share": ["revenue"],
+    "stock_level": ["stock_end_qty"]
+  },
+  "not_routed": {
+    "average": "The matcher contract has no per-order aggregation field; routing it would confuse average with aggregate.",
+    "average_nonmoney": "The matcher contract has no non-money metric/per aggregation fields.",
+    "ratio": "The cancellation numerator and all-status denominator are not jointly documented as a routable feature; no eligible development route met the support threshold.",
+    "breakdown_by_time": "The day grain is not documented in the matcher output.",
+    "entity_list": "The stock constant-term binding (con hang versus het hang) is not documented in the matcher output.",
+    "multi_value": "The matcher output documents one time window, not the required ordered period list.",
+    "multi_period": "The matcher output documents one time window and no monthly series marker.",
+    "date_lookup": "The earliest-expiry criterion is not documented independently of other expiry lookups.",
+    "expiry_date": "The lot-in-stock scope is not documented in the matcher output.",
+    "top_k_table": "The customer grouping and debt-table scope are not jointly documented in the matcher output.",
+    "trend_check": "The ordered periods and consecutive-increasing cue are not documented in the matcher output.",
+    "share": "The numerator group and whole-shop denominator scope are not documented in the matcher output.",
+    "stock_level": "The large-and-base unit form is not documented in the matcher output."
+  },
+  "rules": [
+    {
+      "id": "R006_superlative_k_missing",
+      "priority": 6,
+      "conditions": [
+        {"op": "present", "feature": "ranking"},
+        {"op": "absent", "feature": "k"}
+      ],
+      "status": "unsupported",
+      "reason": "superlative without k (default requires term 'nhất')"
+    },
+    {
+      "id": "R010_diff",
+      "priority": 10,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "revenue"},
+        {"op": "equals", "feature": "answer_type", "value": "number"},
+        {"op": "equals", "feature": "change", "value": "diff"},
+        {"op": "count_eq", "feature": "periods", "value": 2},
+        {"op": "absent", "feature": "ranking"}
+      ],
+      "shape": "diff",
+      "reason": "Two periods and an explicit difference cue select diff."
+    },
+    {
+      "id": "R020_pct_change",
+      "priority": 20,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "revenue"},
+        {"op": "equals", "feature": "answer_type", "value": "percent"},
+        {"op": "equals", "feature": "change", "value": "pct"},
+        {"op": "count_eq", "feature": "periods", "value": 1},
+        {"op": "absent", "feature": "ranking"}
+      ],
+      "shape": "pct_change",
+      "reason": "One asked period and an explicit percent-change cue select pct_change."
+    },
+    {
+      "id": "R030_threshold_list",
+      "priority": 30,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "debt_balance"},
+        {"op": "equals", "feature": "answer_type", "value": "list"},
+        {"op": "equals", "feature": "time_kind", "value": "as_of"},
+        {"op": "present", "feature": "comparator"},
+        {"op": "present", "feature": "threshold"},
+        {"op": "in", "feature": "group", "value": [null, "customer_name"]},
+        {"op": "count_eq", "feature": "periods", "value": 1}
+      ],
+      "shape": "threshold_list",
+      "reason": "An as-of debt list with a comparator and positive threshold selects threshold_list."
+    },
+    {
+      "id": "R040_balance_asof",
+      "priority": 40,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "debt_balance"},
+        {"op": "equals", "feature": "answer_type", "value": "number"},
+        {"op": "equals", "feature": "time_kind", "value": "as_of"},
+        {"op": "absent", "feature": "comparator"},
+        {"op": "absent", "feature": "threshold"},
+        {"op": "absent", "feature": "group"},
+        {"op": "count_eq", "feature": "periods", "value": 1}
+      ],
+      "shape": "balance_asof",
+      "reason": "An ungrouped as-of debt number selects balance_asof."
+    },
+    {
+      "id": "R050_top_1_value",
+      "priority": 50,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "revenue"},
+        {"op": "equals", "feature": "answer_type", "value": "number"},
+        {"op": "present", "feature": "ranking"},
+        {"op": "equals", "feature": "k", "value": 1},
+        {"op": "present", "feature": "group"},
+        {"op": "equals", "feature": "time_kind", "value": "time:month"},
+        {"op": "count_eq", "feature": "periods", "value": 1}
+      ],
+      "shape": "top_1_value",
+      "reason": "A rank-one revenue number with an explicit grouping selects top_1_value."
+    },
+    {
+      "id": "R051_top_1_group_ambiguous",
+      "priority": 51,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "revenue"},
+        {"op": "equals", "feature": "answer_type", "value": "number"},
+        {"op": "present", "feature": "ranking"},
+        {"op": "equals", "feature": "k", "value": 1},
+        {"op": "absent", "feature": "group"},
+        {"op": "equals", "feature": "time_kind", "value": "time:month"}
+      ],
+      "status": "ambiguous",
+      "reason": "top-1 grouping cannot be decided from the features"
+    },
+    {
+      "id": "R060_argmax_day",
+      "priority": 60,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "revenue"},
+        {"op": "equals", "feature": "answer_type", "value": "date"},
+        {"op": "present", "feature": "ranking"},
+        {"op": "equals", "feature": "k", "value": 1},
+        {"op": "in", "feature": "group", "value": [null, "group:day"]},
+        {"op": "equals", "feature": "time_kind", "value": "time:month"},
+        {"op": "count_eq", "feature": "periods", "value": 1}
+      ],
+      "shape": "argmax_day",
+      "reason": "A rank-one revenue date in one month selects argmax_day."
+    },
+    {
+      "id": "R070_top_1",
+      "priority": 70,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "quantity_base"},
+        {"op": "equals", "feature": "answer_type", "value": "string"},
+        {"op": "present", "feature": "ranking"},
+        {"op": "equals", "feature": "k", "value": 1},
+        {"op": "in", "feature": "group", "value": [null, "product_name"]},
+        {"op": "equals", "feature": "time_kind", "value": "time:month"},
+        {"op": "count_eq", "feature": "periods", "value": 1}
+      ],
+      "shape": "top_1",
+      "reason": "A rank-one product-name result by base quantity selects top_1."
+    },
+    {
+      "id": "R080_top_k",
+      "priority": 80,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "quantity_base"},
+        {"op": "equals", "feature": "answer_type", "value": "list"},
+        {"op": "present", "feature": "ranking"},
+        {"op": "gt", "feature": "k", "value": 1},
+        {"op": "in", "feature": "group", "value": [null, "product_name"]},
+        {"op": "equals", "feature": "time_kind", "value": "time:month"},
+        {"op": "count_eq", "feature": "periods", "value": 1}
+      ],
+      "shape": "top_k",
+      "reason": "A ranked product list by base quantity with k greater than one selects top_k."
+    },
+    {
+      "id": "R090_count",
+      "priority": 90,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "order_id"},
+        {"op": "equals", "feature": "answer_type", "value": "number"},
+        {"op": "absent", "feature": "ranking"},
+        {"op": "absent", "feature": "change"},
+        {"op": "equals", "feature": "time_kind", "value": "time:month"},
+        {"op": "count_eq", "feature": "periods", "value": 1},
+        {"op": "count_eq", "feature": "entity_concepts", "value": 0},
+        {"op": "count_eq", "feature": "filter_concepts", "value": 0}
+      ],
+      "shape": "count",
+      "reason": "One unfiltered monthly order count selects count."
+    },
+    {
+      "id": "R100_aggregate",
+      "priority": 100,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "revenue"},
+        {"op": "equals", "feature": "answer_type", "value": "number"},
+        {"op": "absent", "feature": "ranking"},
+        {"op": "absent", "feature": "change"},
+        {"op": "equals", "feature": "time_kind", "value": "time:month"},
+        {"op": "count_eq", "feature": "periods", "value": 1},
+        {"op": "count_eq", "feature": "entity_concepts", "value": 0},
+        {"op": "count_eq", "feature": "filter_concepts", "value": 0}
+      ],
+      "shape": "aggregate",
+      "reason": "One unfiltered monthly revenue number selects aggregate."
+    }
+  ]
+}
