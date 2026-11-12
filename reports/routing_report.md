@@ -53,3 +53,48 @@ Run on `train/questions.jsonl` (3000 questions), split `src/splits/split_seed202
 - **Held-out is not clean.** The two rules were chosen by looking at the train counts for the whole training set, including the held-out businesses. The held-out agreement above is therefore optimistic.
 - **Entity-bearing day questions are still unrouted.** 65 time:day questions with an entity (revenue 14, order_id 51) are excluded by the same gate that protects `R090_count` and `R100_aggregate`.
 - **Analysis not refreshed.** `src/analysis.md` still reports the previous router numbers (342 ok). It was not updated in this change.
+
+---
+
+## Version 3
+
+- Routing rules: `src/shape_rules.json` version 3
+- Templates: `src/answer_schema.jsonl` 27 shapes
+- Date: 2026-11-12
+- Scope: Option A, steps 1-3 as revised
+
+### Change
+
+1. **Step 1, `last_n_days`: NOT ADDED.** Failed the 20-match rule. The gate (revenue, number, `last_n_days`, one period, no ranking, no change, no entity, no filter) matches 18 training questions. The order_id gate matches 4. No template or rule was added for it. Expected gain was revised down from 35 to 18.
+2. **Step 2, `range`: ADDED.** Quarter date ranges only (all 67 range questions carry Q1-Q4 anchors).
+   - Template `aggregate_range` (revenue, slots `start`/`end`) and rule `R140_aggregate_range` (priority 140). Matches 32 train questions, all gold number.
+   - Template `count_range` (order_id count, slots `start`/`end`) and rule `R150_count_range` (priority 150). Matches 28 train questions, all gold number.
+   - Same gates as `R100`/`R090` (no ranking, no change, no entity, no filter).
+   - Each rule clears the 20-match threshold on its own.
+3. **Step 3, `week`: RECORDED AS OPTION (a), NOT IMPLEMENTED.** Week questions stay unsupported. No `time_anchor` feature was added. The 17 routable number questions are below the 20-match threshold, and the start/end values already carry the dates.
+4. **Tests (additions only):**
+   - Per-rule positive and near-miss tests for R140 and R150.
+   - A check that the `aggregate_range` and `count_range` fixtures are calendar quarters.
+   - Covered-rule set extended; template count 25 -> 27.
+   - Fixtures `tests/fixtures/aggregate_range.json` and `tests/fixtures/count_range.json`.
+
+### Results
+
+Train, 3000 questions, split `src/splits/split_seed20260512.json`.
+
+| Split | Routed ok (v2 -> v3) | Type agreement (v3) |
+|---|---|---|
+| all | 452 -> 512 | 507 agree, 5 gold unanswerable |
+| dev | 301 -> 340 | 335 agree, 5 gold unanswerable |
+| held-out | 151 -> 172 | 172 agree |
+
+- Previously routed ok questions changed: 0.
+- New routes: 60 (`aggregate_range` 32, `count_range` 28), all gold type number.
+- Unit tests: 89 pass (86 before).
+
+### Limits and caveats
+
+- Type agreement only. Values were not compared.
+- Held-out is not clean. The range rules were chosen from train counts across all businesses.
+- Entity-bearing range questions (7) and week questions (77 unrouted) remain unsupported.
+- `last_n_days` (18 revenue, 4 order_id) and `week` need a rule-policy decision. See the Version 3 change list.
