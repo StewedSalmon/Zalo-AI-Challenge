@@ -1,0 +1,13 @@
+{
+  "name": "two_period_revenue_difference",
+  "expected_shape": "diff",
+  "features": {
+    "metric": "revenue",
+    "answer_type": "number",
+    "change": "diff",
+    "periods": [
+      {"kind": "time:month", "month": 6, "year": 2026},
+      {"kind": "time:month", "month": 5, "year": 2026}
+    ]
+  }
+}

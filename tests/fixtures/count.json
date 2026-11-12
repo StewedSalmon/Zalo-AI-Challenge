@@ -1,0 +1,10 @@
+{
+  "name": "monthly_unfiltered_order_count",
+  "expected_shape": "count",
+  "features": {
+    "metric": "order_id",
+    "answer_type": "number",
+    "time_kind": "time:month",
+    "periods": [{"kind": "time:month", "month": 6, "year": 2026}]
+  }
+}

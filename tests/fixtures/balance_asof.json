@@ -1,0 +1,11 @@
+{
+  "name": "total_debt_as_of_date",
+  "expected_shape": "balance_asof",
+  "features": {
+    "metric": "debt_balance",
+    "answer_type": "number",
+    "time_kind": "as_of",
+    "date": "2026-08-19",
+    "periods": [{"kind": "as_of", "date": "2026-08-19"}]
+  }
+}

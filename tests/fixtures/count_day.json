@@ -1,0 +1,13 @@
+{
+  "name": "single_day_unfiltered_order_count",
+  "expected_shape": "count_day",
+  "features": {
+    "metric": "order_id",
+    "answer_type": "number",
+    "time_kind": "time:day",
+    "date": "2026-06-15",
+    "start": "2026-06-15",
+    "end": "2026-06-15",
+    "periods": [{"kind": "time:day", "date": "2026-06-15", "start": "2026-06-15", "end": "2026-06-15"}]
+  }
+}

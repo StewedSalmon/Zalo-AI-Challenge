@@ -2,7 +2,8 @@
 """Deterministic, data-driven routing from matcher features to shape templates.
 
 The router does not decide answerability. The matcher remains responsible for
-profile absence and coverage. All canonical catalogs are loaded at runtime.
+profile absence and coverage. Canonical ids come only from concept_dictionary.json
+(the router does not read params.json or any rulebook file).
 """
 from __future__ import annotations
 
@@ -56,8 +57,8 @@ def _is_int(value: Any) -> bool:
     return isinstance(value, int) and not isinstance(value, bool)
 
 
-def _unsupported(reason: str, trace: tuple[str, ...] = ()) -> "Features":
-    return Features(status="unsupported", reason=reason, trace=trace)
+def _unsupported(reason: str) -> "Adaptation":
+    return Adaptation(status="unsupported", reason=reason)
 
 
 @dataclass(frozen=True)
@@ -68,12 +69,11 @@ class Period:
     date: Optional[str] = None
     start: Optional[str] = None
     end: Optional[str] = None
+    anchor: Optional[str] = None   # relative reading: 'current' / 'previous' (week, month), 'Q1'..'Q4' (quarter)
 
 
 @dataclass(frozen=True)
 class Features:
-    status: str = "ok"
-    reason: Optional[str] = None
     metric: Optional[str] = None
     answer_type: Optional[str] = None
     group: Optional[str] = None
@@ -99,6 +99,14 @@ class Features:
 
 
 @dataclass(frozen=True)
+class Adaptation:
+    """Envelope for the adapter: features exist only when status is 'ok'."""
+    status: str
+    reason: Optional[str] = None
+    features: Optional[Features] = None
+
+
+@dataclass(frozen=True)
 class RouteResult:
     status: str
     shape: Optional[str]
@@ -108,45 +116,40 @@ class RouteResult:
 
 @dataclass(frozen=True)
 class CanonicalCatalog:
-    params: dict
+    """Canonical ids, read only from concept_dictionary.json. No other file is consulted."""
     dictionary: dict
-    metric_ids: frozenset[str]
+    metric_ids: frozenset[str]        # kind 'concept'
+    concept_ids: frozenset[str]       # kind 'concept' or 'grouping' (ids that may appear in required_concepts)
     grouping_ids: frozenset[str]
     comparator_ids: frozenset[str]
     time_kind_ids: frozenset[str]
     status_ids: frozenset[str]
-    params_time_ids: frozenset[str]
 
     @classmethod
-    def from_paths(cls, params_path: str | Path, dictionary_path: str | Path) -> "CanonicalCatalog":
-        params = json.loads(Path(params_path).read_text(encoding="utf-8"))
+    def from_path(cls, dictionary_path: str | Path) -> "CanonicalCatalog":
         dictionary = json.loads(Path(dictionary_path).read_text(encoding="utf-8"))
         entries = dictionary["entries"]
-        metric_ids = set(params["allowed_concepts"]) | set(params["allowed_rules"])
-        metric_ids |= {e["canonical"] for e in entries if e["kind"] == "concept"}
+
+        def ids(kind: str) -> frozenset[str]:
+            return frozenset(e["canonical"] for e in entries if e["kind"] == kind)
+
+        metric_ids, grouping_ids = ids("concept"), ids("grouping")
         return cls(
-            params=params,
             dictionary=dictionary,
-            metric_ids=frozenset(metric_ids),
-            grouping_ids=frozenset(e["canonical"] for e in entries if e["kind"] == "grouping"),
-            comparator_ids=frozenset(e["canonical"] for e in entries if e["kind"] == "comparator"),
-            time_kind_ids=frozenset(e["canonical"] for e in entries if e["kind"] == "time_kind"),
-            status_ids=frozenset(params["status_vocabulary"]["canonical"]["value"]),
-            params_time_ids=frozenset(w["name"] for w in params["time_windows"]),
+            metric_ids=metric_ids,
+            concept_ids=metric_ids | grouping_ids,
+            grouping_ids=grouping_ids,
+            comparator_ids=ids("comparator"),
+            time_kind_ids=ids("time_kind"),
+            status_ids=ids("status"),
         )
 
     def time_kind(self, value: Any) -> tuple[Optional[str], Optional[str]]:
-        if not isinstance(value, str):
-            return None, "unknown canonical time kind " + repr(value)
-        if value in self.time_kind_ids:
-            return value, None
-        if value in self.params_time_ids:
-            candidates = sorted(
-                canonical for canonical in self.time_kind_ids
-                if canonical.rsplit(":", 1)[-1] == value
-            )
-            if len(candidates) == 1:
-                return candidates[0], None
+        """Accept a dictionary id as is, or a bare name whose 'time:' form is a dictionary id ('month' -> 'time:month')."""
+        if isinstance(value, str):
+            for candidate in (value, f"time:{value}"):
+                if candidate in self.time_kind_ids:
+                    return candidate, None
         return None, "unknown canonical time kind " + repr(value)
 
 
@@ -422,7 +425,7 @@ def _required_concepts(body: dict, catalog: CanonicalCatalog) -> list[str]:
         if isinstance(node, dict):
             for key, value in node.items():
                 if key in {"metric", "field", "group_by", "per", "entity"} and isinstance(value, str):
-                    if value in catalog.metric_ids:
+                    if value in catalog.concept_ids:
                         found.add(value)
                 visit(value)
         elif isinstance(node, list):
@@ -434,16 +437,15 @@ def _required_concepts(body: dict, catalog: CanonicalCatalog) -> list[str]:
 
 
 class ShapeRouter:
-    def __init__(self, templates_path: str | Path, rules_path: str | Path,
-                 params_path: str | Path, dictionary_path: str | Path):
+    def __init__(self, templates_path: str | Path, rules_path: str | Path, dictionary_path: str | Path):
         self.templates_path = Path(templates_path)
         self.rules_path = Path(rules_path)
         self.templates = load_templates(self.templates_path)
         self.rules = json.loads(self.rules_path.read_text(encoding="utf-8"))
-        self.catalog = CanonicalCatalog.from_paths(params_path, dictionary_path)
+        self.catalog = CanonicalCatalog.from_path(dictionary_path)
         validate_rules(self.rules, self.templates, self.catalog)
 
-    def adapter_from_matching(self, obj: dict) -> Features:
+    def adapter_from_matching(self, obj: dict) -> Adaptation:
         return _adapter_from_matching(obj, self.catalog)
 
     def instantiate(self, template: dict, features: Features) -> tuple[Optional[dict], Optional[str]]:
@@ -482,10 +484,6 @@ class ShapeRouter:
             "reason": None,
             "trace": list(features.trace),
         }
-        if features.status != "ok":
-            base["reason"] = features.reason or "adapter rejected matcher output"
-            base["trace"].append("adapter")
-            return base
         current = features
         if current.ranking is not None and current.k is None and current.superlative_term == "nhat":
             current = replace(
@@ -529,11 +527,24 @@ class ShapeRouter:
     def process_matching(self, business_id: str, as_of_date: str, obj: dict) -> dict:
         matching = obj.get("matching", obj) if isinstance(obj, dict) else {}
         question_id = matching.get("question_id", "") if isinstance(matching, dict) else ""
-        features = self.adapter_from_matching(obj)
-        return self.process(question_id, business_id, as_of_date, features)
+        adaptation = self.adapter_from_matching(obj)
+        if adaptation.status != "ok":
+            return {
+                "question_id": question_id,
+                "business_id": business_id,
+                "as_of_date": as_of_date,
+                "status": "unsupported",
+                "shape": None,
+                "body": None,
+                "required_concepts": [],
+                "rule_id": None,
+                "reason": adaptation.reason or "adapter rejected matcher output",
+                "trace": ["adapter"],
+            }
+        return self.process(question_id, business_id, as_of_date, adaptation.features)
 
 
-def _adapter_from_matching(obj: Any, catalog: CanonicalCatalog) -> Features:
+def _adapter_from_matching(obj: Any, catalog: CanonicalCatalog) -> Adaptation:
     if not isinstance(obj, dict):
         return _unsupported("matcher output must be an object")
     extraction = None
@@ -720,7 +731,7 @@ def _adapter_from_matching(obj: Any, catalog: CanonicalCatalog) -> Features:
         return _unsupported("defaults_overridden and trace must be lists")
     if not isinstance(matching["default_flagged"], bool):
         return _unsupported("default_flagged must be boolean")
-    return Features(
+    features = Features(
         metric=metric,
         answer_type=answer_type,
         ranking=ranking,
@@ -741,6 +752,7 @@ def _adapter_from_matching(obj: Any, catalog: CanonicalCatalog) -> Features:
         status_filter=status_filter,
         trace=tuple(trace),
     )
+    return Adaptation(status="ok", features=features)
 
 
 def _validate_extraction(extraction: Any, question_id: str) -> Optional[str]:
@@ -770,13 +782,79 @@ def _validate_extraction(extraction: Any, question_id: str) -> Optional[str]:
     return None
 
 
-def adapter_from_matching(obj: dict, *, params_path: str | Path,
-                          dictionary_path: str | Path) -> Features:
-    """Adapt only documented matcher/extraction fields; reject unknowns without guessing."""
-    catalog = CanonicalCatalog.from_paths(params_path, dictionary_path)
+def adapter_from_matching(obj: dict, *, dictionary_path: str | Path) -> Adaptation:
+    """Adapt only documented matcher/extraction fields; reject unknowns without guessing.
+
+    NOT USED by the feature path. The CLI (main) and feature_extractor.py route Features directly,
+    so this adapter is kept only for the matcher contract (role_analysis.md Prompt 4) and has no caller here.
+    """
+    catalog = CanonicalCatalog.from_path(dictionary_path)
     return _adapter_from_matching(obj, catalog)
 
 
 def dumps(value: Any) -> str:
     """Canonical JSON used by determinism tests and byte-level comparisons."""
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def features_from_dict(d: dict) -> Features:
+    """Build Features from a features.jsonl 'features' object. Unknown keys are rejected, not dropped."""
+    unknown = sorted(set(d) - set(Features.__dataclass_fields__))
+    if unknown:
+        raise ValueError("unknown Features field(s): " + ", ".join(unknown))
+    values = dict(d)
+    values["periods"] = tuple(Period(**p) for p in d.get("periods", ()))
+    values["entity_concepts"] = tuple(d.get("entity_concepts", ()))
+    values["filter_concepts"] = tuple(d.get("filter_concepts", ()))
+    values["trace"] = tuple(d.get("trace", ()))
+    return Features(**values)
+
+
+def main(argv: Optional[list[str]] = None) -> int:
+    """Route a features.jsonl file (written by feature_extractor.py) into routes.jsonl.
+
+    Each input line carries an envelope status. Non-ok envelopes are passed through with that status,
+    so the router never upgrades an extractor 'ambiguous' or 'unsupported' into a shape.
+    """
+    import argparse
+    import sys
+    from collections import Counter
+
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--features", required=True)
+    ap.add_argument("--templates", required=True)
+    ap.add_argument("--rules", required=True)
+    ap.add_argument("--dictionary", required=True)
+    ap.add_argument("--out", required=True)
+    a = ap.parse_args(argv)
+
+    router = ShapeRouter(a.templates, a.rules, a.dictionary)
+    status, reasons = Counter(), Counter()
+    lines = []
+    for raw in Path(a.features).read_text(encoding="utf-8").splitlines():
+        if not raw.strip():
+            continue
+        rec = json.loads(raw)
+        feats = features_from_dict(rec["features"])
+        if rec["status"] == "ok":
+            out = router.process(rec["question_id"], rec["business_id"], rec["as_of_date"], feats)
+        else:
+            out = {"question_id": rec["question_id"], "business_id": rec["business_id"],
+                   "as_of_date": rec["as_of_date"], "status": rec["status"], "shape": None,
+                   "body": None, "required_concepts": [], "rule_id": None,
+                   "reason": rec["reason"], "trace": list(feats.trace)}
+        out["free_tokens"] = rec.get("free_tokens", [])
+        status[out["status"]] += 1
+        if out["reason"]:
+            reasons[out["reason"]] += 1
+        lines.append(dumps(out))
+    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+    Path(a.out).write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"routed: {sum(status.values())}  status: {dict(status)}", file=sys.stderr)
+    for reason, c in reasons.most_common(10):
+        print(f"  {c:5d}  {reason}", file=sys.stderr)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

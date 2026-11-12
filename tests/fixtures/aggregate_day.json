@@ -1,0 +1,13 @@
+{
+  "name": "single_day_unfiltered_revenue",
+  "expected_shape": "aggregate_day",
+  "features": {
+    "metric": "revenue",
+    "answer_type": "number",
+    "time_kind": "time:day",
+    "date": "2026-06-15",
+    "start": "2026-06-15",
+    "end": "2026-06-15",
+    "periods": [{"kind": "time:day", "date": "2026-06-15", "start": "2026-06-15", "end": "2026-06-15"}]
+  }
+}

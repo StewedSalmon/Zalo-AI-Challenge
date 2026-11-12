@@ -1,0 +1,13 @@
+{
+  "name": "three_best_selling_products",
+  "expected_shape": "top_k",
+  "features": {
+    "metric": "quantity_base",
+    "answer_type": "list",
+    "group": "product_name",
+    "ranking": {"criterion": "quantity_base", "direction": "desc", "k": 3},
+    "k": 3,
+    "time_kind": "time:month",
+    "periods": [{"kind": "time:month", "month": 6, "year": 2026}]
+  }
+}

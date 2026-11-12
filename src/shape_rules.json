@@ -1,6 +1,8 @@
 {
-  "version": 1,
+  "version": 2,
   "shape_metrics": {
+    "aggregate_day": ["revenue"],
+    "count_day": ["order_id"],
     "aggregate": ["revenue"],
     "count": ["order_id"],
     "average": ["revenue"],
@@ -212,6 +214,38 @@
       ],
       "shape": "aggregate",
       "reason": "One unfiltered monthly revenue number selects aggregate."
+    },
+    {
+      "id": "R110_aggregate_day",
+      "priority": 110,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "revenue"},
+        {"op": "equals", "feature": "answer_type", "value": "number"},
+        {"op": "absent", "feature": "ranking"},
+        {"op": "absent", "feature": "change"},
+        {"op": "equals", "feature": "time_kind", "value": "time:day"},
+        {"op": "count_eq", "feature": "periods", "value": 1},
+        {"op": "count_eq", "feature": "entity_concepts", "value": 0},
+        {"op": "count_eq", "feature": "filter_concepts", "value": 0}
+      ],
+      "shape": "aggregate_day",
+      "reason": "One unfiltered single-day revenue number selects aggregate_day."
+    },
+    {
+      "id": "R120_count_day",
+      "priority": 120,
+      "conditions": [
+        {"op": "equals", "feature": "metric", "value": "order_id"},
+        {"op": "equals", "feature": "answer_type", "value": "number"},
+        {"op": "absent", "feature": "ranking"},
+        {"op": "absent", "feature": "change"},
+        {"op": "equals", "feature": "time_kind", "value": "time:day"},
+        {"op": "count_eq", "feature": "periods", "value": 1},
+        {"op": "count_eq", "feature": "entity_concepts", "value": 0},
+        {"op": "count_eq", "feature": "filter_concepts", "value": 0}
+      ],
+      "shape": "count_day",
+      "reason": "One unfiltered single-day order count selects count_day."
     }
   ]
 }

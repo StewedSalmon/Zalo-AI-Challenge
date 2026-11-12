@@ -1,0 +1,10 @@
+{
+  "name": "monthly_unfiltered_revenue",
+  "expected_shape": "aggregate",
+  "features": {
+    "metric": "revenue",
+    "answer_type": "number",
+    "time_kind": "time:month",
+    "periods": [{"kind": "time:month", "month": 6, "year": 2026}]
+  }
+}

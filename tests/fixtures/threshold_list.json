@@ -1,0 +1,14 @@
+{
+  "name": "customers_over_debt_threshold",
+  "expected_shape": "threshold_list",
+  "features": {
+    "metric": "debt_balance",
+    "answer_type": "list",
+    "group": "customer_name",
+    "comparator": "gte",
+    "threshold": 1000000,
+    "time_kind": "as_of",
+    "date": "2026-08-19",
+    "periods": [{"kind": "as_of", "date": "2026-08-19"}]
+  }
+}

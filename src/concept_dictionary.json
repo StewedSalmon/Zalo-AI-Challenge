@@ -273,9 +273,8 @@
     {
       "canonical": "month_to_date",
       "kind": "time_kind",
-      "aliases": ["thang nay", "tu dau thang nay den het hom nay"],
+      "aliases": ["tu dau thang nay den het hom nay"],
       "display": {
-        "thang nay": "tháng này",
         "tu dau thang nay den het hom nay": "từ đầu tháng này đến hết hôm nay"
       },
       "constant": null,
@@ -285,10 +284,8 @@
     {
       "canonical": "time:day",
       "kind": "time_kind",
-      "aliases": ["hom nay", "hom qua", "ngay"],
+      "aliases": ["ngay"],
       "display": {
-        "hom nay": "hôm nay",
-        "hom qua": "hôm qua",
         "ngay": "ngày"
       },
       "constant": null,
@@ -298,12 +295,9 @@
     {
       "canonical": "week",
       "kind": "time_kind",
-      "aliases": ["tuan", "tuan nay", "tuan truoc", "tuan roi"],
+      "aliases": ["tuan"],
       "display": {
-        "tuan": "tuần",
-        "tuan nay": "tuần này",
-        "tuan truoc": "tuần trước",
-        "tuan roi": "tuần rồi"
+        "tuan": "tuần"
       },
       "constant": null,
       "rulebook_ref": "§2",
@@ -359,6 +353,19 @@
       "status": "confirmed"
     },
     {
+      "canonical": "huỷ",
+      "kind": "status",
+      "aliases": ["huy", "da huy", "bi huy"],
+      "display": {
+        "huy": "huỷ",
+        "da huy": "đã huỷ",
+        "bi huy": "bị huỷ"
+      },
+      "constant": null,
+      "rulebook_ref": "§8",
+      "status": "proposed"
+    },
+    {
       "canonical": "year",
       "kind": "time_kind",
       "aliases": ["nam"],
@@ -368,6 +375,114 @@
       "constant": null,
       "rulebook_ref": "§2",
       "status": "proposed"
+    },
+    {
+      "canonical": "lot_quantity",
+      "kind": "concept",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§6",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "payment_amount",
+      "kind": "concept",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§4",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "receipt_quantity",
+      "kind": "concept",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§5",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "hoàn thành",
+      "kind": "status",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§8",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "trả hàng",
+      "kind": "status",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§8",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "đang giao",
+      "kind": "status",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§8",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "to_date_stock",
+      "kind": "time_kind",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "over_n",
+      "kind": "time_kind",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "year_to_date",
+      "kind": "time_kind",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "month_or_quarter_without_year",
+      "kind": "time_kind",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "tet",
+      "kind": "time_kind",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
+    },
+    {
+      "canonical": "shift",
+      "kind": "time_kind",
+      "aliases": [],
+      "display": {},
+      "constant": null,
+      "rulebook_ref": "§2",
+      "status": "confirmed"
     }
   ]
 }

@@ -1,0 +1,13 @@
+{
+  "name": "highest_revenue_day",
+  "expected_shape": "argmax_day",
+  "features": {
+    "metric": "revenue",
+    "answer_type": "date",
+    "group": "group:day",
+    "ranking": {"criterion": "revenue", "direction": "desc", "k": 1},
+    "k": 1,
+    "time_kind": "time:month",
+    "periods": [{"kind": "time:month", "month": 6, "year": 2026}]
+  }
+}

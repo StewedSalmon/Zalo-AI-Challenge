@@ -1,0 +1,11 @@
+{
+  "name": "monthly_revenue_percent_change",
+  "expected_shape": "pct_change",
+  "features": {
+    "metric": "revenue",
+    "answer_type": "percent",
+    "change": "pct",
+    "time_kind": "time:month",
+    "periods": [{"kind": "time:month", "month": 6, "year": 2026}]
+  }
+}
