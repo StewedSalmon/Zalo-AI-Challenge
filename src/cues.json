@@ -25,6 +25,8 @@
     "thang roi":  {"kind": "month", "which": "previous"}
   },
   "fuzzy_block": ["gian", "nhau", "tien", "phieu", "chieu", "giao", "than", "muoi", "gium"],
-  "filler": ["mot", "bn", "bnhiu", "vien", "cong", "biet", "gium", "vaayj", "ddieenj", "tien"],
+  "filler": ["mot", "bn", "bnhiu", "vien", "cong", "biet", "gium", "vaayj", "ddieenj", "tien",
+    "truoc", "lien", "quan", "theo", "kem", "ke", "hon", "chiem", "len", "cung", "dem", "ky", "sang", "vs",
+    "dong", "dat", "trung", "binh", "thu", "xet", "coi", "check", "hnay", "hqua", "th", "bua", "may", "ti", "nhiu"],
   "stopwords": ["la", "cua", "o", "trong", "nhu", "the", "gi", "cho", "toi", "minh", "em", "anh", "chi", "vay", "a", "ah", "nhi", "nhe", "voi", "va", "hay", "hoac", "cac", "nhung", "nay", "do", "kia", "duoc", "khong", "co", "ra", "vao", "den", "tu", "tinh", "het", "ngay", "thang", "nam", "tuan", "hom", "qua", "ma", "thi", "bi", "dang", "da", "se", "hoi", "xem", "giup", "check", "kiem", "tra", "ban", "mua", "so", "tong", "moi", "tung", "ca", "con", "ko", "k", "dc", "mat", "hang", "mon", "san", "pham", "khach", "gia", "tri", "tat", "luc", "cuoi", "dau", "nhat"]
 }

@@ -98,3 +98,51 @@ Train, 3000 questions, split `src/splits/split_seed20260512.json`.
 - Held-out is not clean. The range rules were chosen from train counts across all businesses.
 - Entity-bearing range questions (7) and week questions (77 unrouted) remain unsupported.
 - `last_n_days` (18 revenue, 4 order_id) and `week` need a rule-policy decision. See the Version 3 change list.
+
+### Decision record (after version 3)
+
+- `last_n_days`: left unrouted (approved). Revenue gate 18 and order_id gate 4 are below the 20-match rule. No template or rule added.
+
+---
+
+## Version 4
+
+- Routing rules: `src/shape_rules.json` version 3 (unchanged)
+- Templates: `src/answer_schema.jsonl` 27 shapes (unchanged)
+- Config changed: `src/cues.json` `filler` list (+21 words)
+- Date: 2026-11-12
+- Scope: steps 1-3 of the post-v3 plan
+
+### Change
+
+1. **Step 1, `last_n_days`:** left unrouted (see decision record above).
+2. **Step 2, filler cleanup:** added 21 words to `cues.json` `filler`. `filler` only removes a token from the leftover list, which sets `entity_concepts`. Added: `truoc, lien, quan, theo, kem, ke, hon, chiem, len, cung, dem, ky, sang, vs, dong, dat, trung, binh, thu, xet, coi, check, hnay, hqua, th, bua, may, ti, nhiu`. Not added, on purpose: words that can name a product or segment (`nhom`, `nhap`, `nuoc`, `hoa`, `thuoc`, `than`, `thiet`, `size`) and single letters (`l`, `m`, `x`, `z`).
+3. **Step 3, re-count for option C:** recounted after the filler change (below).
+
+### Results
+
+Train, 3000 questions, split `src/splits/split_seed20260512.json`.
+
+| Split | Routed ok (v3 -> v4) | Type agreement (v4) |
+|---|---|---|
+| all | 512 -> 593 | 587 agree, 6 gold unanswerable |
+| dev | 340 -> 405 | 399 agree, 6 gold unanswerable |
+| held-out | 172 -> 188 | 188 agree |
+
+- Previously routed ok questions changed: 0.
+- Newly routed: 81 (count 37, aggregate 27, count_day 14, aggregate_range 1, aggregate_day 1). 80 gold number, 1 gold unanswerable (`count`). All through existing rules; no rule or template changed.
+- Newly ambiguous: 0.
+- Unit tests: 89 pass. No test changed.
+
+### Step 3: option C recount
+
+- `quantity_base` unrouted: 349. Gold: number 213, percent 48, date 46, list 20, string 13, unanswerable 9.
+- Of the 213 number questions, 200 still have an entity and 13 do not. The entity values are real product text (for example "nep hoa vang", "size l/m"), so a total would ignore the product and be wrong.
+- Conclusion: a `quantity_base` number template alone gains at most about 13 questions. Option C depends on entity binding (option B), which is not in this part.
+
+### Limits and caveats
+
+- Type agreement only. Values were not compared.
+- The filler list was chosen by reading leftover examples on train, so the held-out numbers are optimistic (same caveat as v2 and v3).
+- Trace strings in `routes.jsonl` change for questions whose leftover words changed; routing status and shape do not.
+- `top_k_table` for debt rankings (19 gold-table as_of questions) is not routed. No change in this version.
