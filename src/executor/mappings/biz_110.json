@@ -1,0 +1,21 @@
+{
+  "business_id": "biz_110",
+  "files": [
+    "danh_sach_hoa_don.csv"
+  ],
+  "columns": {
+    "order_id": "Mã bill",
+    "date": "Ngày giao dịch",
+    "status": "Status",
+    "revenue": "Tien hang"
+  },
+  "status_map": {
+    "Chờ giao": "đang giao",
+    "Hoàn thành": "hoàn thành",
+    "Hoàn trả": "trả hàng",
+    "khách hủy": "huỷ"
+  },
+  "unmapped_statuses": [],
+  "verified": false,
+  "notes": "Columns and status keywords chosen from the data; unmapped_statuses are NOT mapped (null here and reported by the executor only for periods that contain them)."
+}

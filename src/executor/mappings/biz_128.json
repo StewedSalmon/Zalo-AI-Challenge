@@ -1,0 +1,26 @@
+{
+  "business_id": "biz_128",
+  "files": [
+    "DanhSachHoaDon.xlsx"
+  ],
+  "columns": {
+    "order_id": "Mã hóa đơn",
+    "date": "Thời gian",
+    "status": "Trạng thái",
+    "revenue": "Tổng tiền hàng"
+  },
+  "status_map": {
+    "Huỷ đơn": "huỷ",
+    "Thành công": "hoàn thành",
+    "hàng trả về": "trả hàng",
+    "hủy": "huỷ",
+    "xong": "hoàn thành",
+    "Đang giao hàng": "đang giao",
+    "Đổi trả": "trả hàng"
+  },
+  "unmapped_statuses": [
+    "Đổi trả"
+  ],
+  "verified": false,
+  "notes": "Columns and status keywords chosen from the data. Dev-gold-supported assumption: Đổi trả mapped to trả hàng (2 scored questions agree only when these rows are excluded). unmapped_statuses (biz_128: none; biz_120: Đang xử lý) are absent from status_map."
+}

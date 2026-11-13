@@ -1,0 +1,25 @@
+{
+  "business_id": "biz_120",
+  "files": [
+    "DanhSachHoaDon.xlsx"
+  ],
+  "columns": {
+    "order_id": "Mã hóa đơn",
+    "date": "Thời gian",
+    "status": "Trạng thái",
+    "revenue": "Tổng tiền hàng"
+  },
+  "status_map": {
+    "Huỷ đơn": "huỷ",
+    "Thành công": "hoàn thành",
+    "hủy đơn": "huỷ",
+    "ok": "hoàn thành",
+    "trả hàng": "trả hàng",
+    "Đã trả hàng": "trả hàng"
+  },
+  "unmapped_statuses": [
+    "Đang xử lý"
+  ],
+  "verified": false,
+  "notes": "Columns and status keywords chosen from the data. unmapped_statuses are absent from status_map on purpose: the executor flags only periods that contain them."
+}
