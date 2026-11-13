@@ -1,0 +1,12 @@
+{
+  "name": "quarter_unfiltered_revenue",
+  "expected_shape": "aggregate_range",
+  "features": {
+    "metric": "revenue",
+    "answer_type": "number",
+    "time_kind": "range",
+    "start": "2026-04-01",
+    "end": "2026-06-30",
+    "periods": [{"kind": "range", "year": 2026, "start": "2026-04-01", "end": "2026-06-30", "anchor": "Q2"}]
+  }
+}

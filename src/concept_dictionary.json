@@ -1,4 +1,12 @@
 {
+  "metric_ids": [
+    "revenue",
+    "order_id",
+    "quantity_base",
+    "debt_balance",
+    "stock_end_qty",
+    "expiry_date"
+  ],
   "entries": [
     {
       "canonical": "revenue",
@@ -20,12 +28,14 @@
     {
       "canonical": "order_id",
       "kind": "concept",
-      "aliases": ["don", "don hang", "so don", "so don hang"],
+      "aliases": ["don", "don hang", "so don", "so don hang", "bill", "hoa don"],
       "display": {
         "don": "đơn",
         "don hang": "đơn hàng",
         "so don": "số đơn",
-        "so don hang": "số đơn hàng"
+        "so don hang": "số đơn hàng",
+        "bill": "bill",
+        "hoa don": "hóa đơn"
       },
       "constant": null,
       "rulebook_ref": "§1, §8",
@@ -329,7 +339,7 @@
     {
       "canonical": "range",
       "kind": "time_kind",
-      "aliases": ["tu x den y", "quy"],
+      "aliases": ["tu x den y"],
       "display": {
         "tu x den y": "Từ X đến Y",
         "quy": "quý"
@@ -368,10 +378,8 @@
     {
       "canonical": "year",
       "kind": "time_kind",
-      "aliases": ["nam"],
-      "display": {
-        "nam": "năm"
-      },
+      "aliases": [],
+      "display": {},
       "constant": null,
       "rulebook_ref": "§2",
       "status": "proposed"
