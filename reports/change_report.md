@@ -57,9 +57,37 @@ Artifacts:
 - `src/analysis_out/validation_train.json` (`total: 3000`, `invalid: 0`)
 - `src/analysis_out/coverage_train.json`
 
+### Value agreement run (added 2026-11-13, same v1 change set)
+
+First end-to-end value check: Query Spec v1 records were adapted (`src/spec_adapter.py`) into the six-shape executor contract and executed on train data, then compared against `train/answers.jsonl` under the agreed scoring matrix (correct +1, wrong −1, abstain on answerable 0, abstain on gold-unanswerable +1, any value on gold-unanswerable −1). Selection is spec-side only; nothing outside the family is guessed.
+
+| Measure | Result |
+|---|---|
+| Adapter family (spec-side criteria, no gold filter) | 516 / 3000; 2484 unsupported with recorded reasons |
+| Executed (5 businesses with mappings: biz_108, biz_110, biz_119, biz_120, biz_128 — all dev bucket) | **92** |
+| Exact value agreement | **89 / 92 = 96.7%** |
+| Wrong | 3 (all revenue sums over multi-day windows, executed > gold by ~3%: `q_8806b5b18ac8`, `q_b3e5c2fb4852` biz_119, `q_822c779f4e4d` biz_120) |
+| Abstain (no mapping for business) | 424; 3 of these score +1 by abstaining on gold-unanswerable questions (biz_103, biz_106) — a coverage artifact, not correctness |
+| Heldout bucket | 0 executed — no mappings for any held-out business |
+| Determinism | outputs byte-identical across two runs |
+
+Adapter judgment call: `distinct ∈ {True, "order_id"}` on `count`/`order_id` is accepted, because the executor's count is distinct-by-construction (deduplicates by `order_id`, §8). The stricter first version rejected it and executed only 74/92.
+
+New artifacts:
+
+- `src/spec_adapter.py` (adapter, runner, scorer)
+- `src/analysis_out/value_run.jsonl` (per-question log)
+- `src/analysis_out/value_run_summary.json` (status/verdict counts, per business, per time kind, per gold type, mismatch ids)
+
+Caveats:
+
+- 96.7% is **family agreement on 92/3000 questions** (filter-free revenue/order-count on 5 dev businesses) — a thin slice, not overall PA.
+- The 3 mismatches are executor-side over-counts; single-day sums on the same businesses agreed. Diagnostic material (order counts, windows) is in the per-question log for Person 4.
+- `family_pa` in the summary mixes coverage abstains with real scoring; `agree` (89/92) is the quality number.
+
 ## Limits and caveats
 
-- **Type agreement only.** Values were not executed. A matching answer type does not mean the operation, metric, filters, or final value are correct.
+- **Value agreement only inside the adapter family.** Values were executed and compared only for the 92-family run above (filter-free revenue/order-count, 5 mapped dev businesses): 89/92 agree. Outside that family the results are still type agreement only — a matching answer type does not mean the operation, metric, filters, or final value are correct.
 - **Residual null coverage.** 192 questions have `metric=null` and 2 have `operation=unknown`. They validate by contract but may not be executable without a Person 4 fallback.
 - **Entity extraction is heuristic.** 1619 questions still carry free-text notes. Product and customer binding is not resolved; this is deliberate for Person 3.
 - **No split evaluation.** Results are for the whole train set. The dev/held-out split was not re-run for this report.

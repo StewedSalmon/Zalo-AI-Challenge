@@ -1,0 +1,503 @@
+{
+  "family_size": 516,
+  "unsupported_reasons": {
+    "filters/having/entities present": 627,
+    "operation 'ratio' not in family": 272,
+    "metric 'quantity_base' does not match operation 'sum'": 272,
+    "operation 'rank' not in family": 256,
+    "operation 'average' not in family": 229,
+    "operation 'percent_change' not in family": 210,
+    "operation 'argmax' not in family": 132,
+    "metric None does not match operation 'sum'": 127,
+    "operation 'share' not in family": 89,
+    "metric 'debt_balance' does not match operation 'sum'": 74,
+    "operation 'series' not in family": 54,
+    "metric 'customer_name' does not match operation 'count'": 34,
+    "shift/comparison present": 32,
+    "metric 'stock_end_qty' does not match operation 'sum'": 24,
+    "operation 'delta' not in family": 21,
+    "unit 'qua' not supported": 17,
+    "operation 'lookup' not in family": 5,
+    "0 periods, need exactly 1": 3,
+    "answer_type 'table' not number": 2,
+    "period has no concrete start/end": 2,
+    "operation 'unknown' not in family": 2
+  },
+  "loads": {
+    "biz_101": {
+      "error": "IngestError: no mapping for biz_101"
+    },
+    "biz_102": {
+      "error": "IngestError: no mapping for biz_102"
+    },
+    "biz_103": {
+      "error": "IngestError: no mapping for biz_103"
+    },
+    "biz_104": {
+      "error": "IngestError: no mapping for biz_104"
+    },
+    "biz_105": {
+      "error": "IngestError: no mapping for biz_105"
+    },
+    "biz_106": {
+      "error": "IngestError: no mapping for biz_106"
+    },
+    "biz_107": {
+      "error": "IngestError: no mapping for biz_107"
+    },
+    "biz_108": {
+      "orders": 31501,
+      "data_start": "2025-01-01",
+      "data_end": "2026-05-29",
+      "report": {
+        "sheets_read": 1,
+        "rows_read": 31501
+      },
+      "unknown_status": {}
+    },
+    "biz_109": {
+      "error": "IngestError: no mapping for biz_109"
+    },
+    "biz_110": {
+      "orders": 28888,
+      "data_start": "2025-05-01",
+      "data_end": "2026-07-03",
+      "report": {
+        "sheets_read": 1,
+        "rows_read": 29317,
+        "rows_no_order_id": 429
+      },
+      "unknown_status": {}
+    },
+    "biz_111": {
+      "error": "IngestError: no mapping for biz_111"
+    },
+    "biz_112": {
+      "error": "IngestError: no mapping for biz_112"
+    },
+    "biz_113": {
+      "error": "IngestError: no mapping for biz_113"
+    },
+    "biz_114": {
+      "error": "IngestError: no mapping for biz_114"
+    },
+    "biz_115": {
+      "error": "IngestError: no mapping for biz_115"
+    },
+    "biz_116": {
+      "error": "IngestError: no mapping for biz_116"
+    },
+    "biz_117": {
+      "error": "IngestError: no mapping for biz_117"
+    },
+    "biz_118": {
+      "error": "IngestError: no mapping for biz_118"
+    },
+    "biz_119": {
+      "orders": 34047,
+      "data_start": "2025-01-01",
+      "data_end": "2026-07-13",
+      "report": {
+        "sheets_read": 19,
+        "rows_read": 34047
+      },
+      "unknown_status": {}
+    },
+    "biz_120": {
+      "orders": 48367,
+      "data_start": "2025-01-01",
+      "data_end": "2026-06-12",
+      "report": {
+        "sheets_read": 18,
+        "rows_read": 48389,
+        "rows_unknown_status": 22
+      },
+      "unknown_status": {
+        "Đang xử lý": 22
+      }
+    },
+    "biz_121": {
+      "error": "IngestError: no mapping for biz_121"
+    },
+    "biz_122": {
+      "error": "IngestError: no mapping for biz_122"
+    },
+    "biz_123": {
+      "error": "IngestError: no mapping for biz_123"
+    },
+    "biz_124": {
+      "error": "IngestError: no mapping for biz_124"
+    },
+    "biz_125": {
+      "error": "IngestError: no mapping for biz_125"
+    },
+    "biz_126": {
+      "error": "IngestError: no mapping for biz_126"
+    },
+    "biz_127": {
+      "error": "IngestError: no mapping for biz_127"
+    },
+    "biz_128": {
+      "orders": 26505,
+      "data_start": "2025-04-01",
+      "data_end": "2026-09-07",
+      "report": {
+        "sheets_read": 18,
+        "rows_read": 26505
+      },
+      "unknown_status": {}
+    },
+    "biz_129": {
+      "error": "IngestError: no mapping for biz_129"
+    },
+    "biz_130": {
+      "error": "IngestError: no mapping for biz_130"
+    }
+  },
+  "all": {
+    "questions": 516,
+    "status": {
+      "error": 424,
+      "ok": 92
+    },
+    "verdicts": {
+      "abstain": 421,
+      "correct": 92,
+      "wrong": 3
+    },
+    "agree": {
+      "true": 89,
+      "false": 3
+    },
+    "family_pa": 0.1725,
+    "by_business": {
+      "biz_101": {
+        "abstain": 20
+      },
+      "biz_102": {
+        "abstain": 31
+      },
+      "biz_103": {
+        "abstain": 21,
+        "correct": 2
+      },
+      "biz_104": {
+        "abstain": 23
+      },
+      "biz_105": {
+        "abstain": 14
+      },
+      "biz_106": {
+        "abstain": 8,
+        "correct": 1
+      },
+      "biz_107": {
+        "abstain": 17
+      },
+      "biz_108": {
+        "correct": 13
+      },
+      "biz_109": {
+        "abstain": 10
+      },
+      "biz_110": {
+        "correct": 25
+      },
+      "biz_111": {
+        "abstain": 15
+      },
+      "biz_112": {
+        "abstain": 20
+      },
+      "biz_113": {
+        "abstain": 20
+      },
+      "biz_114": {
+        "abstain": 20
+      },
+      "biz_115": {
+        "abstain": 26
+      },
+      "biz_116": {
+        "abstain": 20
+      },
+      "biz_117": {
+        "abstain": 12
+      },
+      "biz_118": {
+        "abstain": 11
+      },
+      "biz_119": {
+        "correct": 13,
+        "wrong": 2
+      },
+      "biz_120": {
+        "correct": 13,
+        "wrong": 1
+      },
+      "biz_121": {
+        "abstain": 8
+      },
+      "biz_122": {
+        "abstain": 19
+      },
+      "biz_123": {
+        "abstain": 9
+      },
+      "biz_124": {
+        "abstain": 5
+      },
+      "biz_125": {
+        "abstain": 15
+      },
+      "biz_126": {
+        "abstain": 19
+      },
+      "biz_127": {
+        "abstain": 19
+      },
+      "biz_128": {
+        "correct": 25
+      },
+      "biz_129": {
+        "abstain": 17
+      },
+      "biz_130": {
+        "abstain": 22
+      }
+    },
+    "by_time_kind": {
+      "last_n_days": {
+        "abstain": 29
+      },
+      "month_to_date": {
+        "wrong": 1
+      },
+      "range": {
+        "abstain": 57,
+        "correct": 14
+      },
+      "time:day": {
+        "abstain": 143,
+        "correct": 50
+      },
+      "time:month": {
+        "abstain": 159,
+        "correct": 28,
+        "wrong": 2
+      },
+      "week": {
+        "abstain": 18
+      },
+      "year_to_date": {
+        "abstain": 15
+      }
+    },
+    "by_gold_type": {
+      "number": {
+        "abstain": 421,
+        "correct": 89,
+        "wrong": 3
+      },
+      "unanswerable": {
+        "correct": 3
+      }
+    }
+  },
+  "dev": {
+    "questions": 343,
+    "status": {
+      "error": 251,
+      "ok": 92
+    },
+    "verdicts": {
+      "abstain": 248,
+      "correct": 92,
+      "wrong": 3
+    },
+    "agree": {
+      "true": 89,
+      "false": 3
+    },
+    "family_pa": 0.2595,
+    "by_business": {
+      "biz_103": {
+        "abstain": 21,
+        "correct": 2
+      },
+      "biz_104": {
+        "abstain": 23
+      },
+      "biz_106": {
+        "abstain": 8,
+        "correct": 1
+      },
+      "biz_108": {
+        "correct": 13
+      },
+      "biz_109": {
+        "abstain": 10
+      },
+      "biz_110": {
+        "correct": 25
+      },
+      "biz_111": {
+        "abstain": 15
+      },
+      "biz_112": {
+        "abstain": 20
+      },
+      "biz_113": {
+        "abstain": 20
+      },
+      "biz_115": {
+        "abstain": 26
+      },
+      "biz_117": {
+        "abstain": 12
+      },
+      "biz_118": {
+        "abstain": 11
+      },
+      "biz_119": {
+        "correct": 13,
+        "wrong": 2
+      },
+      "biz_120": {
+        "correct": 13,
+        "wrong": 1
+      },
+      "biz_121": {
+        "abstain": 8
+      },
+      "biz_123": {
+        "abstain": 9
+      },
+      "biz_124": {
+        "abstain": 5
+      },
+      "biz_126": {
+        "abstain": 19
+      },
+      "biz_127": {
+        "abstain": 19
+      },
+      "biz_128": {
+        "correct": 25
+      },
+      "biz_130": {
+        "abstain": 22
+      }
+    },
+    "by_time_kind": {
+      "last_n_days": {
+        "abstain": 22
+      },
+      "month_to_date": {
+        "wrong": 1
+      },
+      "range": {
+        "abstain": 31,
+        "correct": 14
+      },
+      "time:day": {
+        "abstain": 74,
+        "correct": 50
+      },
+      "time:month": {
+        "correct": 28,
+        "abstain": 96,
+        "wrong": 2
+      },
+      "week": {
+        "abstain": 13
+      },
+      "year_to_date": {
+        "abstain": 12
+      }
+    },
+    "by_gold_type": {
+      "number": {
+        "abstain": 248,
+        "correct": 89,
+        "wrong": 3
+      },
+      "unanswerable": {
+        "correct": 3
+      }
+    }
+  },
+  "heldout": {
+    "questions": 173,
+    "status": {
+      "error": 173
+    },
+    "verdicts": {
+      "abstain": 173
+    },
+    "agree": {
+      "true": 0,
+      "false": 0
+    },
+    "family_pa": 0.0,
+    "by_business": {
+      "biz_101": {
+        "abstain": 20
+      },
+      "biz_102": {
+        "abstain": 31
+      },
+      "biz_105": {
+        "abstain": 14
+      },
+      "biz_107": {
+        "abstain": 17
+      },
+      "biz_114": {
+        "abstain": 20
+      },
+      "biz_116": {
+        "abstain": 20
+      },
+      "biz_122": {
+        "abstain": 19
+      },
+      "biz_125": {
+        "abstain": 15
+      },
+      "biz_129": {
+        "abstain": 17
+      }
+    },
+    "by_time_kind": {
+      "last_n_days": {
+        "abstain": 7
+      },
+      "range": {
+        "abstain": 26
+      },
+      "time:day": {
+        "abstain": 69
+      },
+      "time:month": {
+        "abstain": 63
+      },
+      "week": {
+        "abstain": 5
+      },
+      "year_to_date": {
+        "abstain": 3
+      }
+    },
+    "by_gold_type": {
+      "number": {
+        "abstain": 173
+      }
+    }
+  },
+  "mismatch_ids": [
+    "q_8806b5b18ac8",
+    "q_b3e5c2fb4852",
+    "q_822c779f4e4d"
+  ]
+}
