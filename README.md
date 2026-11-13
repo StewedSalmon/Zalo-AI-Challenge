@@ -6,9 +6,7 @@ output is one typed answer (`number`, `percent`, `date`, `string`, `boolean`, `l
 `unanswerable`, `abstain`) per question, scored by Penalized Accuracy (correct +1, wrong −1,
 abstain 0; abstain on a gold-unanswerable question +1).
 
-This repository contains the team's working solution. The `src/` question-understanding part
-(Person 3) is the active development area documented here; `pipeline/` holds the earlier
-end-to-end integration pipeline.
+The `src/` question-understanding part (Person 3) is the active development area documented here; `pipeline/` holds the earlier end-to-end integration pipeline.
 
 ## Repository layout (committed files only)
 
